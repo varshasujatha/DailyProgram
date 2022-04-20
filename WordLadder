@@ -1,0 +1,46 @@
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+    
+        String start = beginWord;
+            String end = endWord;
+        Set<String> dict = new HashSet<String>(wordList);
+        if(dict.contains(end))
+        {
+if (dict.size() == 0)
+return 0;
+dict.add(end);
+LinkedList<String> wordQueue = new LinkedList<String>();
+LinkedList<Integer> distanceQueue = new LinkedList<Integer>();
+wordQueue.add(start);
+distanceQueue.add(1);
+//track the shortest path
+int result = Integer.MAX_VALUE;
+while (!wordQueue.isEmpty()) {
+String currWord = wordQueue.pop();
+Integer currDistance = distanceQueue.pop();
+if (currWord.equals(end)) {
+result = Math.min(result, currDistance);
+}
+for (int i = 0; i < currWord.length(); i++) {
+char[] currCharArr = currWord.toCharArray();
+for (char c = 'a'; c <= 'z'; c++) {
+currCharArr[i] = c;
+String newWord = new String(currCharArr);
+if (dict.contains(newWord)) {
+wordQueue.add(newWord);
+distanceQueue.add(currDistance + 1);
+dict.remove(newWord);
+}
+}
+}
+}
+        
+if (result < Integer.MAX_VALUE)
+return result;
+else
+return 0;
+        }
+        else
+            return 0;
+}
+}
